@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioTerra AI | แอปพลิเคชัน (Simulator & Scanner)</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+Thai:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body style="padding-top: 80px;">
+    <!-- Background Elements -->
+    <div class="glow-orb top-left"></div>
+    <div class="glow-orb bottom-right"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-leaf text-accent"></i> BioTerra<span class="text-accent">.AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html">หน้าแรก</a>
+            <a href="features.html">นวัตกรรม</a>
+            <a href="app.html" class="btn-primary"
+                style="background-color: var(--accent-alt); color: white; box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);">กำลังใช้งาน
+                <i class="fa-solid fa-satellite"></i></a>
+        </div>
+    </nav>
+
+    <!-- Workflow Section -->
+    <section id="workflow" class="section">
+        <h2 class="section-title">4 ขั้นตอนสู่แผ่นดินที่อุดมสมบูรณ์</h2>
+        <p class="section-subtitle">ระบบนิเวศการทำงานไร้รอยต่อ ตั้งแต่วิเคราะห์จนถึงฟื้นฟูจริง</p>
+
+        <div class="workflow-grid">
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+                <h3>1. Data Input</h3>
+                <p>ระบุพิกัดที่ดินและเชื่อมต่อภาพถ่ายดาวเทียม พร้อมอัปโหลดผลตรวจค่าดินเพื่อให้ AI ประมวลผลเบื้องต้น</p>
+                <div class="step-number">01</div>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-brain"></i></div>
+                <h3>2. AI Diagnosis</h3>
+                <p>AI วิเคราะห์สภาพดินเชิงลึก จำลองระบบนิเวศจุลินทรีย์ที่ขาดหายไปผ่าน Generative Model</p>
+                <div class="step-number">02</div>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-flask"></i></div>
+                <h3>3. Recipe Generation</h3>
+                <p>สร้าง "สูตรปรุงดิน" (Nano-Microbial Recipe) ระดับไมโครที่เหมาะสมกับพื้นที่ของคุณที่สุด</p>
+                <div class="step-number">03</div>
+            </div>
+            <div class="step-card">
+                <div class="step-icon"><i class="fa-solid fa-industry"></i></div>
+                <h3>4. Bio-Hub Implementation</h3>
+                <p>ส่งคำสั่งผลิตไปยังเครือข่ายโรงงานชีวภาพ (Bio-Hubs) ใกล้เคียง พร้อมคู่มือลงสารฟื้นฟู</p>
+                <div class="step-number">04</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive App Section -->
+    <section id="app" class="section app-container" style="padding-top: 0;">
+        <div class="app-interface card-glass">
+            <div class="app-header">
+                <h3><i class="fa-solid fa-satellite-dish"></i> ระบบสแกนและวิเคราะห์ดาวเทียม</h3>
+                <div class="status-indicator">Online · BioTerra API v2.1</div>
+            </div>
+
+            <div class="app-body">
+                <!-- LEFT: Map Mock -->
+                <div class="map-view">
+                    <div class="scan-line" id="scan-line"></div>
+                    <div class="target-reticle" id="target-reticle"><i class="fa-solid fa-crosshairs"></i></div>
+                    <!-- Satellite data overlays -->
+                    <div class="map-overlay top-right">
+                        <span class="overlay-chip"><i class="fa-solid fa-satellite"></i> Sentinel-2</span>
+                        <span class="overlay-chip"><i class="fa-solid fa-cloud-sun"></i> Cloud: 3%</span>
+                    </div>
+                    <div class="map-coordinates" id="coord-display">Lat: --.----, Lng: --.----</div>
+                    <div class="map-scale-bar"><span>0</span>
+                        <div class="scale-line"></div><span>5 km</span>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Controls -->
+                <div class="app-controls">
+                    <div class="control-section">
+                        <label class="control-label"><i class="fa-solid fa-location-dot text-accent"></i>
+                            พิกัดที่ดิน</label>
+                        <div class="coord-inputs">
+                            <input type="number" id="input-lat" placeholder="Latitude เช่น 13.7563" step="0.0001">
+                            <input type="number" id="input-lng" placeholder="Longitude เช่น 100.5018" step="0.0001">
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <label class="control-label"><i class="fa-solid fa-file-arrow-up text-accent"></i>
+                            อัปโหลดผลตรวจดิน (ถ้ามี)</label>
+                        <!-- Hidden file input - the real fix -->
+                        <input type="file" id="file-input" accept=".pdf,.csv,.jpg,.jpeg,.png" style="display:none;"
+                            onchange="handleFileUpload(this)">
+                        <div class="upload-zone" id="upload-zone"
+                            onclick="document.getElementById('file-input').click()"
+                            ondragover="event.preventDefault(); this.classList.add('drag-over')"
+                            ondragleave="this.classList.remove('drag-over')" ondrop="handleDrop(event)">
+                            <i class="fa-solid fa-cloud-arrow-up" id="upload-icon"></i>
+                            <p id="upload-text">คลิกเพื่ออัปโหลด หรือ ลากไฟล์มาวางที่นี่</p>
+                            <span class="text-small text-muted" id="upload-hint">รองรับ PDF, CSV, JPG, PNG</span>
+                        </div>
+                        <!-- File preview -->
+                        <div class="file-preview" id="file-preview" style="display:none;">
+                            <i class="fa-solid fa-file-check text-accent"></i>
+                            <div>
+                                <strong id="file-name">file.pdf</strong>
+                                <span class="text-muted text-small" id="file-size">0 KB</span>
+                            </div>
+                            <button class="btn-icon-sm" onclick="clearFile()"><i class="fa-solid fa-xmark"></i></button>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary w-full" id="btn-scan" onclick="startScan()">
+                        <i class="fa-solid fa-microchip"></i> วิเคราะห์ด้วย AI
+                    </button>
+                </div>
+            </div>
+
+            <!-- AI Progress Steps (hidden until scan) -->
+            <div class="ai-progress" id="ai-progress">
+                <div class="progress-header">
+                    <i class="fa-solid fa-brain fa-pulse text-accent"></i>
+                    <span id="progress-label">กำลังเชื่อมต่อดาวเทียม...</span>
+                </div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progress-bar-fill"></div>
+                </div>
+                <div class="progress-steps">
+                    <div class="prog-step" id="ps-0"><i class="fa-solid fa-satellite"></i> ดึงข้อมูลดาวเทียม</div>
+                    <div class="prog-step" id="ps-1"><i class="fa-solid fa-flask"></i> วิเคราะห์ค่าดิน</div>
+                    <div class="prog-step" id="ps-2"><i class="fa-solid fa-dna"></i> จำลอง Microbiome</div>
+                    <div class="prog-step" id="ps-3"><i class="fa-solid fa-flask-vial"></i> สร้าง Recipe</div>
+                    <div class="prog-step" id="ps-4"><i class="fa-brands fa-ethereum"></i> คำนวณ Credits</div>
+                </div>
+            </div>
+
+            <!-- Analysis Result (hidden until done) -->
+            <div class="analysis-result" id="analysis-result">
+                <div class="result-grid">
+                    <div class="result-left">
+                        <h4><i class="fa-solid fa-check-circle text-accent"></i> ผลวิเคราะห์ AI สำเร็จ</h4>
+                        <p class="text-muted text-small" id="result-coord-label">พิกัด: 13.7563°N, 100.5018°E</p>
+
+                        <div class="soil-metrics">
+                            <div class="metric-row">
+                                <span>pH ดิน</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:55%; background: #ef4444;"></div>
+                                </div>
+                                <strong class="text-danger">5.2 (กรด)</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span>ความชื้น</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:38%;"></div>
+                                </div>
+                                <strong>38%</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span>อินทรียวัตถุ</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:22%; background: #f97316;"></div>
+                                </div>
+                                <strong class="text-warn">2.2% (ต่ำ)</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span>ไนโตรเจน (N)</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:30%; background:#f97316;"></div>
+                                </div>
+                                <strong>0.9 g/kg</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span>ฟอสฟอรัส (P)</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:60%;"></div>
+                                </div>
+                                <strong>18 mg/kg</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span>โพแทสเซียม (K)</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:72%;"></div>
+                                </div>
+                                <strong class="text-accent">215 mg/kg</strong>
+                            </div>
+                            <div class="metric-row">
+                                <span>ความหนาแน่นจุลินทรีย์</span>
+                                <div class="metric-bar">
+                                    <div class="metric-fill" style="width:20%; background: #ef4444;"></div>
+                                </div>
+                                <strong class="text-danger">ต่ำมาก</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-right">
+                        <h4><i class="fa-solid fa-flask text-accent"></i> สูตรปรุงดิน (Nano-Microbial Recipe)</h4>
+                        <div class="recipe-details">
+                            <div class="detail-row"><span>จุลินทรีย์หลัก</span><strong class="text-accent">M. robertsii
+                                    + B. subtilis</strong></div>
+                            <div class="detail-row"><span>จุลินทรีย์เสริม</span><strong>T. harzianum
+                                    (ป้องกันโรค)</strong></div>
+                            <div class="detail-row"><span>แร่ธาตุ</span><strong>Zinc 2%, Bio-char 15%</strong></div>
+                            <div class="detail-row"><span>สารปรับ pH</span><strong>Dolomite Lime 200 kg/ไร่</strong>
+                            </div>
+                            <div class="detail-row"><span>วิธีใส่สาร</span><strong>ชั้นลึก 15 cm · หว่านเช้า</strong>
+                            </div>
+                            <div class="detail-row"><span>รอบการฟื้นฟู</span><strong class="text-accent">90 วัน (3
+                                    รอบ)</strong></div>
+                        </div>
+
+                        <div class="credit-estimate">
+                            <div><i class="fa-brands fa-ethereum"></i> Carbon Credits (est.)</div>
+                            <div class="credit-value text-accent">+2.4 tCO2e/ไร่/ปี</div>
+                            <div class="text-small text-muted">≈ 1,440 บาท รายได้เสริมต่อปี</div>
+                        </div>
+
+                        <div class="biohub-info">
+                            <i class="fa-solid fa-industry text-accent"></i>
+                            <div>
+                                <strong>Bio-Hub ใกล้เคียง:</strong>
+                                <span class="text-muted">สุพรรณบุรี Hub · ระยะ 48 km · พร้อมผลิตใน 3 วัน</span>
+                            </div>
+                        </div>
+
+                        <button class="btn-primary w-full mt-4" id="btn-order" onclick="orderRecipe()">
+                            <i class="fa-solid fa-industry"></i> ส่งคำสั่งผลิตไปยัง Bio-Hub
+                        </button>
+                        <button class="btn-secondary w-full mt-4" onclick="resetScan()" style="margin-top:0.5rem;">
+                            <i class="fa-solid fa-rotate-left"></i> สแกนพื้นที่ใหม่
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Interactive Impact Simulator -->
+    <section id="simulator" class="section">
+        <h2 class="section-title">Impact Simulator <span class="text-accent">(จำลองผลกระทบ)</span></h2>
+        <div class="simulator-container card-glass mt-4">
+            <div class="sim-content">
+                <h2><i class="fa-solid fa-calculator"></i> คำนวณความคุ้มค่า</h2>
+                <p>จำลองผลกระทบที่คุณจะสร้างได้ ลองปรับค่าดูสิ!</p>
+
+                <div class="slider-group mt-4">
+                    <label>พื้นที่ติดตั้ง / ฟื้นฟูดิน (ไร่): <span id="area-val" class="text-accent">10</span>
+                        ไร่</label>
+                    <input type="range" id="area-slider" min="1" max="100" value="10" oninput="calculateImpact()">
+                </div>
+
+                <div class="slider-group">
+                    <label>กระจก Bio-Active (บาน): <span id="window-val" class="text-accent">5</span> บาน</label>
+                    <input type="range" id="window-slider" min="0" max="50" value="5" oninput="calculateImpact()">
+                </div>
+            </div>
+            <div class="sim-results text-center">
+                <div class="result-box">
+                    <i class="fa-solid fa-leaf"></i>
+                    <h4>ลด CO2 ได้เทียบเท่าการปลูกต้นไม้</h4>
+                    <div class="result-value"><span id="tree-count" class="text-accent">1,500</span> ต้น/ปี</div>
+                </div>
+                <div class="result-box mt-4">
+                    <i class="fa-solid fa-bolt"></i>
+                    <h4>ประหยัดค่าไฟได้ประมาณ</h4>
+                    <div class="result-value"><span id="save-money" class="text-accent">2,500</span> บาท/เดือน</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Sustainability Concierge (Chat UI) -->
+    <div class="ai-concierge" id="ai-chat">
+        <div class="chat-header" onclick="toggleChat()">
+            <div><i class="fa-solid fa-robot"></i> AI Sustainability Concierge</div>
+            <i class="fa-solid fa-chevron-up" id="chat-toggle-icon"></i>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="msg bot">หน้านี้สำหรับการประมวลผลข้อมูลที่ดิน! มีคำถามเกี่ยวกับการใช้งานหรือผลลัพธ์ของ AI
+                ถามฉันได้เลยครับ!</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-msg" placeholder="สอบถาม AI...">
+            <button onclick="sendMsg()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <i class="fa-solid fa-leaf text-accent"></i> BioTerra<span class="text-accent">.AI</span>
+            </div>
+            <p>Empowering the Earth, One Microbe at a Time. Aligned with SDG 13 & 15.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 BioTerra AI. All rights reserved. (App Simulator)
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

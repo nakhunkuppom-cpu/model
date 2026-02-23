@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BioTerra AI | โฮมเพจ (Homepage)</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Noto+Sans+Thai:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Background Elements -->
+    <div class="glow-orb top-left"></div>
+    <div class="glow-orb bottom-right"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">
+            <i class="fa-solid fa-leaf text-accent"></i> BioTerra<span class="text-accent">.AI</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="text-accent">หน้าแรก</a>
+            <a href="features.html">นวัตกรรม</a>
+            <a href="app.html" class="btn-primary">แอปพลิเคชัน <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge">🌱 ยกระดับการเกษตรสู่ยุคใหม่วิถีคาร์บอนต่ำ</div>
+            <h1>ปฏิวัติการฟื้นฟูดินด้วย <span class="text-gradient">AI อัจฉริยะ</span></h1>
+            <p>ระบบวิเคราะห์และสั่งผลิตสูตรเคลือบดินชีวภาพ (Nano-Microbial) เฉพาะพื้นที่ของคุณ
+                พร้อมระบบรับรองคาร์บอนเครดิตผ่าน Blockchain เพื่อการเกษตรที่ยั่งยืน</p>
+            <div class="hero-actions">
+                <a href="app.html" class="btn-primary large">เริ่มระบุพิกัดที่ดิน</a>
+                <a href="features.html" class="btn-secondary large">สำรวจนวัตกรรม</a>
+                <a href="#" class="btn-secondary large ar-btn" onclick="openAR()"><i
+                        class="fa-solid fa-vr-cardboard"></i> View in AR</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="hologram-planet">
+                <div class="planet-ring"></div>
+                <div class="planet-core">
+                    <i class="fa-solid fa-globe"></i>
+                </div>
+            </div>
+            <div class="floating-data card-glass">
+                <i class="fa-solid fa-microscope"></i> <span class="text-accent">Soil Health: 24%</span>
+            </div>
+            <div class="floating-data right card-glass">
+                <i class="fa-solid fa-cloud-arrow-up"></i> CO2 Captured: 12 Tons
+            </div>
+        </div>
+    </header>
+
+    <!-- LIVE Carbon Ledger Dashboard -->
+    <section id="carbon-ledger" class="section" style="padding-top: 0;">
+        <h2 class="section-title">Live Carbon Ledger <span class="text-accent">(Real-time Impact)</span></h2>
+        <p class="section-subtitle">ยอดรวมการลดคาร์บอนของ Community ในขณะนี้บนเครือข่าย Blockchain</p>
+        <div class="ledger-dashboard card-glass">
+            <div class="ledger-ticker">
+                <div class="ticker-item"><i class="fa-solid fa-globe"></i> Global CO2 Reduced: <span id="global-co2"
+                        class="text-accent ticker-num">1,245,678</span> Tons</div>
+                <div class="ticker-item"><i class="fa-solid fa-users"></i> Active Climate Heroes: <span
+                        id="active-users" class="text-accent ticker-num">15,432</span></div>
+                <div class="ticker-item"><i class="fa-brands fa-ethereum"></i> Total Soil Credits Generated: <span
+                        id="total-credits" class="text-accent ticker-num">450,210</span> SCT</div>
+            </div>
+            <div class="ledger-graph" id="ledger-graph-container">
+                <!-- Mocking a graph with CSS bars -->
+                <div class="bar-chart">
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 50%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 70%;"></div>
+                    <div class="bar" style="height: 100%;"><span class="bar-tooltip">Today: +1,200 Tons</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Sustainability Concierge (Chat UI) -->
+    <div class="ai-concierge" id="ai-chat">
+        <div class="chat-header" onclick="toggleChat()">
+            <div><i class="fa-solid fa-robot"></i> AI Sustainability Concierge</div>
+            <i class="fa-solid fa-chevron-up" id="chat-toggle-icon"></i>
+        </div>
+        <div class="chat-body" id="chat-body">
+            <div class="msg bot">สวัสดี! ฉันคือ AI ที่ปรึกษาด้านความยั่งยืน คุณมีงบประมาณเท่าไหร่ หรืออยากเริ่มทำ SDG
+                ข้อไหน พิมพ์ถามได้เลย!</div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-msg" placeholder="สอบถาม AI...">
+            <button onclick="sendMsg()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <i class="fa-solid fa-leaf text-accent"></i> BioTerra<span class="text-accent">.AI</span>
+            </div>
+            <p>Empowering the Earth, One Microbe at a Time. Aligned with SDG 13 & 15.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2026 BioTerra AI. All rights reserved. (Home)
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
